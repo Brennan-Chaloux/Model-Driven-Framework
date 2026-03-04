@@ -50,6 +50,14 @@ Claude works in a context window. `read_model(domain)` returns one domain's YAML
 ]
 ```
 
+### `validate_model` must include graph reachability checks
+State machine behavioral completeness is a graph problem, not an AI problem. `validate_model` must perform:
+- **Reachability**: BFS/DFS from the initial state — any state not visited is dead (unreachable)
+- **Trap detection**: Any state with no outgoing transitions that is not declared terminal is a trap state
+- **Event coverage**: For each state, list events with no handler (informational — not always an error)
+
+These are deterministic checks computable from the YAML alone. They do not require simulation.
+
 ---
 
 ## Skill Design Principles
@@ -65,6 +73,9 @@ GSD asks product questions: "what do you want to build?" and "who is it for?" Th
 - What are the associations between classes (multiplicity, verb phrase)?
 - Which classes have state machines? What are the states and transitions?
 - What are the interfaces between subsystems?
+
+### Guidelines checker agent follows the GSD plan-checker pattern
+Soft guidelines adherence cannot be mechanically enforced, but it can be reviewed by an agent. After each phase execution, a guidelines checker agent reads `GUIDELINES.md` and the produced code/plans and verifies adherence — the same pattern GSD uses for plan checking (agent reviews plan against phase goals). This is composable with GSD's existing verification hooks, not a new invention.
 
 ### Design for session boundaries
 Claude loses context between conversations. Every skill should assume it may be resumed in a fresh session. The YAML files on disk are the source of truth — the skill should always start by calling `list_domains()` to reconstruct current state.
@@ -82,8 +93,16 @@ Never load the entire model in one call. Keep domains small enough that their YA
 - State machines declare initial state, states list, and transitions with guards and actions
 - Stereotypes: `entity`, `associative`, `active`
 
+### Draw.io schema must be canonical (1:1 constraint)
+The YAML ↔ Draw.io conversion must be a bijection — not an approximation. This requires defining a canonical Draw.io schema at design time:
+- Each semantic element maps to a specific shape type (class = rectangle with stereotype label, association = connector with verb phrase + multiplicity labels, state = rounded rectangle, transition = directed edge with guard/action label)
+- No freeform shapes that lack a YAML equivalent
+- `sync_from_drawio` is a structured schema-aware parse, not an interpretation problem
+
+If the canonical schema is maintained, `sync_from_drawio` is deterministic. The 1:1 constraint must be enforced at schema design time — once defined, round-trip fidelity is a property of the schema, not a runtime concern.
+
 ### Structural equality, not byte equality
-When comparing YAML to Draw.io or validating round-trips, check:
+When validating round-trips, check semantic equivalence — not byte equality:
 - Same set of classes
 - Same attributes and method signatures per class
 - Same associations (endpoints, multiplicity, verb phrase)
@@ -121,4 +140,4 @@ When producing a guidelines document for a project using this framework, use thi
 
 ---
 
-*Last updated: 2026-03-04 after initialization*
+*Last updated: 2026-03-04 after design review — graph reachability, canonical Draw.io schema, guidelines checker agent pattern*
