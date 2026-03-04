@@ -2,7 +2,9 @@
 
 ## What This Is
 
-An MCP-based design workbench that adds an engineering design layer on top of GSD. It enables engineers to build and validate YAML domain models, Draw.io diagrams, and soft guidelines documents before any code is written — so that GSD's `execute-phase` produces exactly what the engineer expects, with no structural surprises mid-execution.
+A two-milestone framework for model-based software development. Milestone 1 produces validated YAML domain models and engineering guidelines through a custom MCP-backed design workflow. Milestone 2 translates those models into GSD-compatible planning artifacts (CONTEXT.md, RESEARCH.md, PLAN.md) using custom model-aware agents — so that GSD's `execute-phase` produces exactly what the engineer expects, with no structural surprises mid-execution.
+
+**Architecture:** The framework owns the design and planning layers. GSD owns the execution and tracking layers. The artifact schemas (PLAN.md, CONTEXT.md, STATE.md) are the contract between them — our agents produce them, GSD's executor consumes them.
 
 ## Core Value
 
@@ -21,10 +23,17 @@ Engineers can verify the full structural design before typing `execute-phase` �
 - [ ] Draw.io XML generation from YAML model (human-facing view only — canonical 1:1 schema)
 - [ ] Structural validation with graph reachability checks — produces actionable per-issue error list (not pass/fail)
 - [ ] State machine simulation — interprets pycca action language from YAML, runs event sequences, returns execution trace
-- [ ] `/design:start` skill that conducts engineering-level domain questioning (classes, associations, state machines, domain bridges)
-- [ ] Soft guidelines document artifact — templated sections with escape hatch
-- [ ] Design artifacts (YAML models + guidelines) injected into GSD `discuss-phase` as enriched context
-- [ ] Guidelines checker agent — reviews executed code against guidelines doc (GSD plan-checker pattern)
+- [ ] **Milestone 1** — Model creation (entirely custom, no GSD equivalent):
+  - [ ] `/design:start` skill — engineering domain questioning (classes, associations, state machines, domain bridges)
+  - [ ] Custom domain modeling agents — iterative model building through conversation
+  - [ ] Custom model validation agents — graph reachability, structural checks, model review/approval flow
+  - [ ] Soft guidelines document artifact — templated sections with escape hatch
+- [ ] **Milestone 2** — Model-to-code (custom planning agents + GSD execution layer):
+  - [ ] Custom discuss-phase agent — model-aware context gathering, presents pre-answered decisions, surfaces model gaps only
+  - [ ] Custom researcher agent — "how to implement the model" brief, not "how to structure the code"
+  - [ ] Custom planner agent — reads YAML model as authoritative, references model specs in every task, model conformance in must_haves
+  - [ ] Guidelines checker agent — runs per executor chunk, reviews code against guidelines
+  - [ ] GSD executor, verifier, and tracking reused unchanged — consume our PLAN.md/CONTEXT.md output
 - [ ] C code generation path — YAML → pycca DSL → pycca compiler → C
 - [ ] Python code generation target (simulation/test path)
 
@@ -71,6 +80,9 @@ The YAML semantic model is Claude's native working format — one file per domai
 | Artifact set: YAML + guidelines only | Draw.io is human-facing view; interface contracts are expressed in YAML as domain bridges | — Pending |
 | Single `/design:start` skill to start | Ship one comprehensive skill first; decompose if it gets unwieldy | — Pending |
 | Soft guidelines: template with escape hatch | Standard sections as defaults; any section skippable or addable | — Pending |
+| Custom agents own the planning layer | Injecting model knowledge into GSD agents fights their defaults; custom agents have it natively | — Pending |
+| GSD owns execution and tracking only | gsd-executor, gsd-verifier, STATE.md, ROADMAP.md reused unchanged — artifact schemas are the contract | — Pending |
+| Two distinct milestones | Milestone 1 (model creation) is entirely novel; Milestone 2 (model-to-code) produces GSD-compatible artifacts | — Pending |
 
 ---
-*Last updated: 2026-03-04 after initialization*
+*Last updated: 2026-03-04 after architecture clarification — two-milestone structure, custom agents own planning layer*
