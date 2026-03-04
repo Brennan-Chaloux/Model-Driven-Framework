@@ -17,20 +17,22 @@ Engineers can verify the full structural design before typing `execute-phase` �
 ### Active
 
 - [ ] MCP server with tools for YAML model CRUD, Draw.io rendering, structural validation, and Draw.io sync
-- [ ] YAML semantic model format aligned with xUML/Shlaer-Mellor methodology (classes, associations, state machines)
-- [ ] Draw.io XML generation from YAML model (structural equality, not byte equality)
-- [ ] Structural validation that produces actionable, per-issue error lists (not pass/fail)
-- [ ] `/design:start` skill that conducts engineering-level domain questioning (classes, associations, state machines, interfaces)
+- [ ] YAML semantic model format aligned with xUML/Shlaer-Mellor methodology — classes, associations, state machines, pycca action language, domain bridges
+- [ ] Draw.io XML generation from YAML model (human-facing view only — canonical 1:1 schema)
+- [ ] Structural validation with graph reachability checks — produces actionable per-issue error list (not pass/fail)
+- [ ] State machine simulation — interprets pycca action language from YAML, runs event sequences, returns execution trace
+- [ ] `/design:start` skill that conducts engineering-level domain questioning (classes, associations, state machines, domain bridges)
 - [ ] Soft guidelines document artifact — templated sections with escape hatch
-- [ ] Design artifacts feed into GSD `discuss-phase` and `plan-phase` as enriched context
-- [ ] C code generation target (embedded systems path)
+- [ ] Design artifacts (YAML models + guidelines) injected into GSD `discuss-phase` as enriched context
+- [ ] Guidelines checker agent — reviews executed code against guidelines doc (GSD plan-checker pattern)
+- [ ] C code generation path — YAML → pycca DSL → pycca compiler → C
 - [ ] Python code generation target (simulation/test path)
 
 ### Out of Scope
 
 - Modifying GSD files — GSD is updated periodically; all customizations live in skills and this MCP package
-- Micca DSL / pycca compilation path for v1 — like-to-have, defer until models are validated against a real project
-- State machine simulation (`simulate_state_machine`) for v1 — useful but not blocking
+- Micca as compilation target — pycca is the chosen path; Micca deferred
+- State machine simulation is v1 — required for behavioral verification before code
 - Multi-user collaboration — single engineer context for now
 
 ## Context
@@ -57,7 +59,10 @@ The YAML semantic model is Claude's native working format — one file per domai
 |----------|-----------|---------|
 | MCP workbench over skills-only | Skills alone can't read/update .drawio after writing — design iteration is blind without MCP state | — Pending |
 | YAML as source of truth (not Draw.io) | Claude generates and reasons about YAML reliably; Draw.io is a presentation view only | — Pending |
-| Structural equality for Draw.io validation | Byte equality is too fragile — user moves shapes visually; validate semantics not layout | — Pending |
+| Canonical Draw.io schema (1:1 with YAML) | Bijection means sync_from_drawio is a structured parse, not interpretation — round-trip is deterministic | — Pending |
+| pycca action language in YAML | User knows C; pycca is well-documented, targets embedded C, enables simulation and code generation | — Pending |
+| Simulation is v1 (not like-to-have) | pycca action language in YAML makes behavioral verification before code possible — this is the core value | — Pending |
+| Artifact set: YAML + guidelines only | Draw.io is human-facing view; interface contracts are expressed in YAML as domain bridges | — Pending |
 | Single `/design:start` skill to start | Ship one comprehensive skill first; decompose if it gets unwieldy | — Pending |
 | Soft guidelines: template with escape hatch | Standard sections as defaults; any section skippable or addable | — Pending |
 

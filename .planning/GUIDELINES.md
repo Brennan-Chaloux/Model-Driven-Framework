@@ -92,6 +92,14 @@ Never load the entire model in one call. Keep domains small enough that their YA
 - Associations carry verb phrases and multiplicity
 - State machines declare initial state, states list, and transitions with guards and actions
 - Stereotypes: `entity`, `associative`, `active`
+- Domain bridges declared explicitly — `from`, `to`, `operation`, `params`, `direction` (required/provided)
+
+### Action language: pycca
+Method bodies and transition actions are expressed in pycca action language syntax, embedded as YAML string blocks. This enables:
+- Simulation via `simulate_state_machine` (event sequence → execution trace)
+- Code generation via YAML → pycca DSL → pycca compiler → C
+
+Pycca was chosen over Scrall because the target implementation language is C and pycca's action language maps directly to embedded C semantics.
 
 ### Draw.io schema must be canonical (1:1 constraint)
 The YAML ↔ Draw.io conversion must be a bijection — not an approximation. This requires defining a canonical Draw.io schema at design time:
