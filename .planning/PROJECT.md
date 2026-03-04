@@ -52,6 +52,9 @@ The YAML semantic model is Claude's native working format — one file per domai
 - **GSD compatibility**: Build on top of GSD, never modify GSD files
 - **Code gen targets**: C (embedded) and Python (simulation) for v1
 - **Skill structure**: Start with single `/design:start` skill; decompose into family if it gets unwieldy
+- **MCP server**: Python (FastMCP) — better library support for pycca parsing and graph traversal
+- **Model files**: `.design/models/` — top-level `.design/` directory parallel to `.planning/`
+- **Guidelines checker**: Runs at executor level (per planner task chunk), same pass as other code quality agents — configured in `config.json`
 
 ## Key Decisions
 
@@ -61,6 +64,9 @@ The YAML semantic model is Claude's native working format — one file per domai
 | YAML as source of truth (not Draw.io) | Claude generates and reasons about YAML reliably; Draw.io is a presentation view only | — Pending |
 | Canonical Draw.io schema (1:1 with YAML) | Bijection means sync_from_drawio is a structured parse, not interpretation — round-trip is deterministic | — Pending |
 | pycca action language in YAML | User knows C; pycca is well-documented, targets embedded C, enables simulation and code generation | — Pending |
+| `.design/` as top-level directory | Separates design artifacts from planning artifacts; room to grow beyond models | — Pending |
+| Python/FastMCP for MCP server | Better library support for pycca parsing and graph traversal than TypeScript | — Pending |
+| Guidelines checker at executor level | Planner task chunks are already context-sized; checking per chunk gives full coverage without a separate phase-level sweep | — Pending |
 | Simulation is v1 (not like-to-have) | pycca action language in YAML makes behavioral verification before code possible — this is the core value | — Pending |
 | Artifact set: YAML + guidelines only | Draw.io is human-facing view; interface contracts are expressed in YAML as domain bridges | — Pending |
 | Single `/design:start` skill to start | Ship one comprehensive skill first; decompose if it gets unwieldy | — Pending |
