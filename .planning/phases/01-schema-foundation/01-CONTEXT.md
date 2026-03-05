@@ -31,7 +31,9 @@ The domain model is split across multiple YAML files per domain (not one monolit
 - `read_state_machine(domain, class)` reads `state-diagrams/<ClassName>.yaml`
 - Two distinct MCP tool variants — not a single tool with a type flag
 - Associations live inside `class-diagram.yaml` (not a separate file)
-- Domain bridges live inside `class-diagram.yaml` of the originating domain
+- Bridge signatures declared once in `DOMAINS.yaml` — single source of truth
+- Requiring domain's `class-diagram.yaml` lists operation names only
+- Providing domain's `class-diagram.yaml` contains `implementations` with pycca action bodies
 
 ### Schema Versioning
 
@@ -42,7 +44,7 @@ The domain model is split across multiple YAML files per domain (not one monolit
 
 ### DOMAINS.yaml
 
-Replaces the originally specified `DOMAINS.md` — machine-parseable, schema-versioned.
+Replaces the originally specified `DOMAINS.md` — machine-parseable, schema-versioned. **Single source of truth for bridge signatures.** Both requiring and providing domains reference operations by name; signatures are declared here only.
 
 ```yaml
 schema_version: "1.0.0"
@@ -57,11 +59,19 @@ bridges:
   - from: Hydraulics
     to: Timer
     operations:
-      - start_timer
-      - cancel_timer
+      - name: start_timer
+        params:
+          - name: duration
+            type: Integer
+        return: UniqueID
+      - name: cancel_timer
+        params:
+          - name: timer_id
+            type: UniqueID
+        return: null
 ```
 
-Fields: `schema_version`, `domains` (name, type, description), `bridges` (from, to, operations list). No status field.
+Fields: `schema_version`, `domains` (name, type, description), `bridges` (from, to, operations with full signatures). No status field.
 
 ### Primitive Types
 
@@ -215,23 +225,34 @@ Rules:
         type: Integer
 ```
 
-**Bridges:**
+**Bridges — requiring domain** (Hydraulics calls Timer):
 ```yaml
 bridges:
   - to_domain: Timer
-    direction: required       # required | provided
-    operations:
-      - name: start_timer
-        params:
-          - name: duration
-            type: Integer
-        return: UniqueID
-      - name: cancel_timer
-        params:
-          - name: timer_id
-            type: UniqueID
-        return: null
+    direction: required
+    operations: [start_timer, cancel_timer]   # names only — signatures in DOMAINS.yaml
 ```
+
+**Bridges — providing domain** (Timer implements the operations):
+```yaml
+bridges:
+  - to_domain: Hydraulics
+    direction: provided
+    implementations:
+      - name: start_timer
+        action: |
+          create object of TimerInstance;
+          self.timer_id = generate_id();
+      - name: cancel_timer
+        action: |
+          delete object of TimerInstance where timer_id = rcvd_evt.timer_id;
+```
+
+Rules:
+- Signatures (name, params, return) declared once in DOMAINS.yaml — never repeated in class-diagram.yaml
+- Requiring domain lists operation names only; `validate_model` checks they exist in DOMAINS.yaml
+- Providing domain supplies a pycca `action` body per operation in an `implementations` block
+- `validate_model` cross-checks that every operation declared in DOMAINS.yaml for a bridge has a matching implementation in the providing domain's file
 
 ### state-diagrams/<ClassName>.yaml
 
