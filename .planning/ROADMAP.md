@@ -18,8 +18,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [ ] **Phase 4: Draw.io Tools** - Implement render_to_drawio, validate_drawio, and sync_from_drawio against the locked canonical schema
 - [ ] **Phase 5: Simulation** - Implement simulate_state_machine with lark pycca parser and event-driven interpreter
 - [ ] **Phase 6: Test Suite** - Build pytest suite covering all tools with round-trip integration test
-- [ ] **Phase 7: Core Agents** - Write Domain Architect, Project Researcher, Class Diagram, State Diagram, and Domain Verifier agent prompts
-- [ ] **Phase 8: Simulation and Execution Agents** - Write Simulation Test Generator and Execution Domain agent prompts
+- [ ] **Phase 7: Core Agents + Modeling References** - Write Domain Architect, Project Researcher, Class Diagram, State Diagram, and Domain Verifier agent prompts; write domains, classes, state machines, and bridges reference files
+- [ ] **Phase 8: Simulation and Execution Agents** - Write Simulation Test Generator and Execution Domain agent prompts; write execution domain reference file
 - [ ] **Phase 9: Core Skills** - Implement all Phase 0 skills from new-project through verify-model plus pause/resume
 - [ ] **Phase 10: Integration Skills** - Implement configure-target and plan-roadmap to complete the Phase 0-2 workflow
 
@@ -93,26 +93,28 @@ Decimal phases appear between their surrounding integers in numeric order.
   5. `test_simulation.py` confirms that a known event sequence on a known state machine produces the expected trace
 **Plans**: TBD
 
-### Phase 7: Core Agents
-**Goal**: Agent prompt files exist for all domain-modeling roles and produce correct artifacts when spawned by skills
+### Phase 7: Core Agents + Modeling References
+**Goal**: Agent prompt files exist for all domain-modeling roles and produce correct artifacts when spawned by skills; xUML modeling reference files are available for Claude agents to load during domain, class, and bridge work
 **Depends on**: Phase 2
-**Requirements**: AGENT-01, AGENT-02, AGENT-03, AGENT-04, AGENT-05
+**Requirements**: AGENT-01, AGENT-02, AGENT-03, AGENT-04, AGENT-05, REF-01, REF-02, REF-03, REF-04
 **Success Criteria** (what must be TRUE):
   1. The Domain Architect agent, when spawned, asks structured domain boundary and bridge questions and writes a valid DOMAINS.md
   2. The Class Diagram Agent asks class, attribute, identifier, and association questions for a given domain and writes a schema-valid class diagram YAML
   3. The State Diagram Agent elicits states, transitions, guards, and pycca actions and writes a schema-valid state diagram YAML
   4. The Domain Verifier agent runs after each modeling step and returns either an empty issue list or a structured list — it never produces a narrative pass/fail verdict
   5. The Project Researcher agent extracts features, pitfalls, and stack information and writes research docs to `.design/research/`
+  6. Reference files exist at `references/domains-reference.md`, `references/classes-reference.md`, `references/state-machines-reference.md`, and `references/bridges-reference.md` and contain actionable xUML heuristics
 **Plans**: TBD
 
 ### Phase 8: Simulation and Execution Agents
-**Goal**: Behavioral verification and target scaffolding agents are functional and connect the model to execution
+**Goal**: Behavioral verification and target scaffolding agents are functional and connect the model to execution; execution domain reference file is available for the Execution Domain Agent
 **Depends on**: Phase 7
-**Requirements**: AGENT-06, AGENT-07
+**Requirements**: AGENT-06, AGENT-07, REF-05
 **Success Criteria** (what must be TRUE):
   1. The Simulation Test Generator, given behavior docs, derives test cases expressed as `(class, event_sequence, expected_trace)` tuples and calls `simulate_state_machine` for each
   2. The Simulation Test Generator reports pass or fail per behavioral spec with specific trace deviations cited — not summary counts
   3. The Execution Domain Agent generates an execution domain scaffold from metamodel rules and target specifications with minimal user input for target-specific decisions
+  4. `references/execution-domain-reference.md` exists with metamodel execution rules, required contracts, and recommended starting points for a new target
 **Plans**: TBD
 
 ### Phase 9: Core Skills
