@@ -186,6 +186,112 @@ The model-updater can modify any `.design/` or `.planning/` document. After a mo
 
 ---
 
+## Deliverable List
+
+### MCP Server (Python/FastMCP)
+- `read_model(domain)`
+- `write_model(domain, yaml)`
+- `list_domains()`
+- `render_to_drawio(domain)`
+- `validate_drawio(domain, xml)`
+- `sync_from_drawio(domain, xml)`
+- `validate_model(domain)`
+- `simulate_state_machine(class, events)`
+
+### Schemas / Templates
+- YAML model schema (classes, associations, state machines, bridges, pycca action language)
+- Canonical Draw.io schema (1:1 with YAML)
+- Behavior doc format (domain / class / state machine)
+- DOMAINS.md template
+- CLASS_DIAGRAM.md template
+- STATE_DIAGRAM.md template
+- TRANSLATION.md template
+- Folder structure (`.planning/`, `.design/model/`, `.design/behavior/`, `.design/research/`)
+
+### Agents
+- Domain Architect — domain map, boundaries, bridges → DOMAINS.md
+- Project Researcher — features, pitfalls, stack → research/ docs
+- Class Diagram Agent — class structure through questioning → class diagrams + behavior docs
+- State Diagram Agent — state machine structure through questioning → state diagrams + behavior docs
+- Domain Verifier — consistency checker, runs at end of each planning step
+- Simulation Test Generator — behavior docs → test suite
+- Execution Domain Agent — generates execution domain from metamodel rules + target specs
+- Phase Researcher — reads model + TRANSLATION.md → CONTEXT.md; refines GUIDELINES + TRANSLATION
+- Model Updater — reactive agent for model corrections and scope changes
+- Guidelines Checker — runs per executor chunk against GUIDELINES
+
+### Skills (Phase 0–2)
+- `/mdf:new-project`
+- `/mdf:discuss-domain`
+- `/mdf:discuss-class`
+- `/mdf:discuss-state`
+- `/mdf:review-model`
+- `/mdf:verify-model`
+- `/mdf:configure-target`
+- `/mdf:pause`
+- `/mdf:resume`
+- `/mdf:plan-roadmap`
+
+### Skills (Phase 3+)
+- `/mdf:discuss-phase`
+- `/mdf:plan-phase`
+- `/mdf:execute-phase`
+- `/mdf:verify-work`
+- `/mdf:complete-milestone`
+- `/mdf:new-milestone`
+- `/mdf:update-model`
+
+---
+
+## GSD Integration
+
+### Using Verbatim
+
+**Agents:**
+- `gsd-executor` — executes phase plans unchanged; receives richer context via CLAUDE.md injection
+- `gsd-planner` — produces PLAN.md unchanged; receives model-aware CONTEXT.md as input
+- `gsd-plan-checker` — verifies plans unchanged; picks up model references via CLAUDE.md
+- `gsd-verifier` — verifies work unchanged; picks up model references via CLAUDE.md
+
+**Artifact formats:**
+- PLAN.md
+- STATE.md
+- ROADMAP.md
+- MILESTONES.md
+- PROJECT.md
+- REQUIREMENTS.md
+
+**Skills (available in Phase 3+ alongside MDF wrappers):**
+- `/gsd:progress`
+- `/gsd:pause-work` / `/gsd:resume-work`
+- `/gsd:check-todos` / `/gsd:add-todo`
+- `/gsd:health`
+
+### Using Modified / Wrapped
+
+| GSD Component | MDF Wrapper | What Changes |
+|---------------|-------------|--------------|
+| `/gsd:discuss-phase` | `/mdf:discuss-phase` | Replaced entirely by Phase Researcher; no user discussion |
+| `/gsd:plan-phase` | `/mdf:plan-phase` | Phase Researcher produces model-aware CONTEXT.md as input |
+| `/gsd:execute-phase` | `/mdf:execute-phase` | Guidelines Checker agent added per executor chunk |
+| `/gsd:verify-work` | `/mdf:verify-work` | Cross-references implementation against model |
+| `/gsd:complete-milestone` | `/mdf:complete-milestone` | Thin wrapper; preserves GSD behavior |
+| `/gsd:new-milestone` | `/mdf:new-milestone` | Thin wrapper; preserves GSD behavior |
+| CONTEXT.md format | Extended | Adds `<model_context>` section (which domains apply, pre-answered decisions, model gaps) |
+| GUIDELINES.md | Extended scope | GSD treats as project conventions; MDF treats as engineering conventions refined from real code |
+| `config.json` | Extended | Guidelines Checker agent added alongside existing workflow agents |
+| CLAUDE.md injection | Extended | MDF appends model reference instructions so all GSD agents load model context automatically |
+
+### Not Using
+
+| GSD Component | Reason |
+|---------------|--------|
+| `/gsd:new-project` | Replaced by `/mdf:new-project` — bootstraps both `.planning/` and `.design/` |
+| `gsd-phase-researcher` | Replaced by Phase Researcher — model-driven context gathering, no open-ended questioning |
+| Phase 0–2 workflow | No GSD equivalent — entirely custom design and verification pipeline |
+
+---
+
 ## Key Design Decisions
 
 | Decision | Rationale |
