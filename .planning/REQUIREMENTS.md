@@ -33,6 +33,14 @@
 - [ ] **MCP-08**: `simulate_state_machine(class, events)` — runs pycca event sequence, returns execution trace (state transitions, guards evaluated, actions executed, final state)
 - [ ] **MCP-09**: Test suite — `test_model_io`, `test_drawio_roundtrip`, `test_validation`, `test_simulation`
 
+### Modeling Reference Files
+
+- [ ] **REF-01**: `references/domains-reference.md` — domain identification rules, system responsibility decomposition, realized domain recognition, bridge definition heuristics; loaded by `/mdf:discuss-domain`
+- [ ] **REF-02**: `references/classes-reference.md` — class identification, stereotypes (entity/associative/active), identifier selection, class vs attribute distinction; loaded by `/mdf:discuss-class`
+- [ ] **REF-03**: `references/state-machines-reference.md` — which classes need state machines, state identification, transition guard rules, action language heuristics; loaded by `/mdf:discuss-state`
+- [ ] **REF-04**: `references/bridges-reference.md` — bridge operation definition, required vs provided direction, what belongs in a bridge vs inside a domain; loaded by `/mdf:discuss-domain` and `/mdf:discuss-class`
+- [ ] **REF-05**: `references/execution-domain-reference.md` — metamodel execution domain rules and required contracts, recommended starting points for a new target; loaded by `/mdf:configure-target` and Execution Domain Agent
+
 ### Agents
 
 - [ ] **AGENT-01**: Domain Architect — extracts domain map, boundaries, realized domains, bridges through conversation → writes DOMAINS.md
@@ -57,6 +65,10 @@
 - [ ] **SKILL-10**: `/mdf:plan-roadmap` — generates GSD ROADMAP.md + MILESTONES.md from completed model for Phase 3+ implementation phases
 
 ## v2 Requirements
+
+### Reference Files
+
+- **REF-06**: `references/translation-reference.md` — how to map model action language to target-specific code patterns; loaded by Phase Researcher and `/mdf:configure-target`
 
 ### Phase 3+ Skills
 
@@ -107,6 +119,11 @@
 | MCP-07 | Phase 4 | Pending |
 | MCP-08 | Phase 5 | Pending |
 | MCP-09 | Phase 6 | Pending |
+| REF-01 | Phase 7 | Pending |
+| REF-02 | Phase 7 | Pending |
+| REF-03 | Phase 7 | Pending |
+| REF-04 | Phase 7 | Pending |
+| REF-05 | Phase 8 | Pending |
 | AGENT-01 | Phase 7 | Pending |
 | AGENT-02 | Phase 7 | Pending |
 | AGENT-03 | Phase 7 | Pending |
@@ -126,7 +143,7 @@
 | SKILL-10 | Phase 10 | Pending |
 
 **Coverage:**
-- v1.0 requirements: 36 total
+- v1.0 requirements: 41 total
 - Mapped to phases: 36
 - Unmapped: 0 ✓
 
