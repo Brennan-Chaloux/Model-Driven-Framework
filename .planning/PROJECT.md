@@ -1,10 +1,19 @@
-# Model-Based Project Framework
+# Model-Driven Framework (MDF)
 
 ## What This Is
 
-A two-milestone framework for model-based software development. Milestone 1 produces validated YAML domain models and engineering guidelines through a custom MCP-backed design workflow. Milestone 2 translates those models into GSD-compatible planning artifacts (CONTEXT.md, RESEARCH.md, PLAN.md) using custom model-aware agents — so that GSD's `execute-phase` produces exactly what the engineer expects, with no structural surprises mid-execution.
+A design-first development workflow for embedded and real-world systems using the Shlaer-Mellor xUML methodology. Engineers build a fully verified behavioral model before any code is written, then feed that model into a modified GSD execution pipeline. The framework is divided into four phases: Design (Phase 0), Model Verification (Phase 1), Target Configuration (Phase 2), and Implementation (Phase 3+).
 
-**Architecture:** The framework owns the design and planning layers. GSD owns the execution and tracking layers. The artifact schemas (PLAN.md, CONTEXT.md, STATE.md) are the contract between them — our agents produce them, GSD's executor consumes them.
+**Architecture:** MDF owns the design and planning layers (Phase 0–2) through custom agents and an MCP server workbench. GSD owns the execution and tracking layers (Phase 3+). The artifact schemas (PLAN.md, CONTEXT.md, STATE.md) are the contract between them — our agents produce them, GSD's executor consumes them.
+
+## Current Milestone: v1.0 — Foundation
+
+**Goal:** Deliver the schema definitions, MCP server workbench, and Phase 0 skills that enable an engineer to build a verified domain model from scratch.
+
+**Target features:**
+- Schema Foundation: YAML model schema, canonical Draw.io schema, behavior doc format, folder structure templates
+- MCP Server (Python/FastMCP): 8 tools for model CRUD, Draw.io rendering, validation (graph reachability), and simulation
+- Phase 0 Skills: `/mdf:new-project`, `/mdf:discuss-domain`, `/mdf:discuss-class`, `/mdf:discuss-state`, `/mdf:review-model`, `/mdf:verify-model`, `/mdf:configure-target`, `/mdf:pause`, `/mdf:resume`, `/mdf:plan-roadmap`
 
 ## Core Value
 
@@ -60,10 +69,11 @@ The YAML semantic model is Claude's native working format — one file per domai
 - **Package**: Standalone — this repo (`model-based-project-framework`), not added to `dilon-claude-tools`
 - **GSD compatibility**: Build on top of GSD, never modify GSD files
 - **Code gen targets**: C (embedded) and Python (simulation) for v1
-- **Skill structure**: Start with single `/design:start` skill; decompose into family if it gets unwieldy
-- **MCP server**: Python (FastMCP) — better library support for pycca parsing and graph traversal
-- **Model files**: `.design/models/` — top-level `.design/` directory parallel to `.planning/`
+- **Skill namespace**: `/mdf:` — Model-Driven Framework commands
+- **MCP server**: Python (FastMCP 3.1.0) — better library support for pycca parsing and graph traversal; standalone package at `mdf-server/`
+- **Model files**: `.design/model/` — top-level `.design/` directory parallel to `.planning/`
 - **Guidelines checker**: Runs at executor level (per planner task chunk), same pass as other code quality agents — configured in `config.json`
+- **Skills location**: `.claude/skills/mdf/` — scoped to project repo, never inside GSD directories
 
 ## Key Decisions
 
@@ -85,4 +95,4 @@ The YAML semantic model is Claude's native working format — one file per domai
 | Two distinct milestones | Milestone 1 (model creation) is entirely novel; Milestone 2 (model-to-code) produces GSD-compatible artifacts | — Pending |
 
 ---
-*Last updated: 2026-03-04 after architecture clarification — two-milestone structure, custom agents own planning layer*
+*Last updated: 2026-03-05 after full workflow design — MDF framework renamed, Phase 0–2 custom workflow defined, GSD integration boundaries locked*
