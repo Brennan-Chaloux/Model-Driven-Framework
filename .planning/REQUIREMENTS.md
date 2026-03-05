@@ -101,29 +101,29 @@
 | MCP-01 | Phase 2 | Pending |
 | MCP-02 | Phase 2 | Pending |
 | MCP-03 | Phase 2 | Pending |
-| MCP-04 | Phase 2 | Pending |
-| MCP-05 | Phase 2 | Pending |
-| MCP-06 | Phase 2 | Pending |
-| MCP-07 | Phase 2 | Pending |
-| MCP-08 | Phase 2 | Pending |
-| MCP-09 | Phase 2 | Pending |
-| AGENT-01 | Phase 3 | Pending |
-| AGENT-02 | Phase 3 | Pending |
-| AGENT-03 | Phase 3 | Pending |
-| AGENT-04 | Phase 3 | Pending |
-| AGENT-05 | Phase 3 | Pending |
-| AGENT-06 | Phase 3 | Pending |
-| AGENT-07 | Phase 4 | Pending |
-| SKILL-01 | Phase 3 | Pending |
-| SKILL-02 | Phase 3 | Pending |
-| SKILL-03 | Phase 3 | Pending |
-| SKILL-04 | Phase 3 | Pending |
-| SKILL-05 | Phase 3 | Pending |
-| SKILL-06 | Phase 3 | Pending |
-| SKILL-07 | Phase 3 | Pending |
-| SKILL-08 | Phase 3 | Pending |
-| SKILL-09 | Phase 4 | Pending |
-| SKILL-10 | Phase 4 | Pending |
+| MCP-04 | Phase 3 | Pending |
+| MCP-05 | Phase 4 | Pending |
+| MCP-06 | Phase 4 | Pending |
+| MCP-07 | Phase 4 | Pending |
+| MCP-08 | Phase 5 | Pending |
+| MCP-09 | Phase 6 | Pending |
+| AGENT-01 | Phase 7 | Pending |
+| AGENT-02 | Phase 7 | Pending |
+| AGENT-03 | Phase 7 | Pending |
+| AGENT-04 | Phase 7 | Pending |
+| AGENT-05 | Phase 7 | Pending |
+| AGENT-06 | Phase 8 | Pending |
+| AGENT-07 | Phase 8 | Pending |
+| SKILL-01 | Phase 9 | Pending |
+| SKILL-02 | Phase 9 | Pending |
+| SKILL-03 | Phase 9 | Pending |
+| SKILL-04 | Phase 9 | Pending |
+| SKILL-05 | Phase 9 | Pending |
+| SKILL-06 | Phase 9 | Pending |
+| SKILL-07 | Phase 9 | Pending |
+| SKILL-08 | Phase 9 | Pending |
+| SKILL-09 | Phase 10 | Pending |
+| SKILL-10 | Phase 10 | Pending |
 
 **Coverage:**
 - v1.0 requirements: 36 total
@@ -132,4 +132,4 @@
 
 ---
 *Requirements defined: 2026-03-05*
-*Last updated: 2026-03-05 after initial definition*
+*Last updated: 2026-03-05 — traceability updated to match 10-phase roadmap*
