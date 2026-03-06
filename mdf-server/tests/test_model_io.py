@@ -51,7 +51,6 @@ def test_imports():
 # MCP-01: list_domains
 # ---------------------------------------------------------------------------
 
-@pytest.mark.skip(reason="Implemented in plan 02-02")
 def test_list_domains_empty(tmp_path, monkeypatch):
     """list_domains() returns [] when .design/model/ does not exist."""
     monkeypatch.chdir(tmp_path)
@@ -61,7 +60,6 @@ def test_list_domains_empty(tmp_path, monkeypatch):
     assert model_io.list_domains() == []
 
 
-@pytest.mark.skip(reason="Implemented in plan 02-02")
 def test_list_domains_with_domains(tmp_path, monkeypatch):
     """list_domains() returns domain names for directories containing class-diagram.yaml."""
     monkeypatch.chdir(tmp_path)
@@ -93,7 +91,6 @@ def test_read_model_case_insensitive(tmp_path, monkeypatch):
     assert "schema_version" in result
 
 
-@pytest.mark.skip(reason="Implemented in plan 02-02")
 def test_read_model_known(tmp_path, monkeypatch):
     """read_model() returns YAML string for a known domain."""
     monkeypatch.chdir(tmp_path)
@@ -108,7 +105,6 @@ def test_read_model_known(tmp_path, monkeypatch):
     assert "schema_version" in result
 
 
-@pytest.mark.skip(reason="Implemented in plan 02-02")
 def test_read_model_unknown(tmp_path, monkeypatch):
     """read_model() returns error dict with available list for unknown domain."""
     monkeypatch.chdir(tmp_path)
@@ -129,7 +125,6 @@ def test_read_model_unknown(tmp_path, monkeypatch):
 # MCP-03: write_model
 # ---------------------------------------------------------------------------
 
-@pytest.mark.skip(reason="Implemented in plan 02-02")
 def test_write_model_valid(tmp_path, monkeypatch):
     """write_model() writes file and returns [] for valid YAML."""
     monkeypatch.chdir(tmp_path)
@@ -143,7 +138,6 @@ def test_write_model_valid(tmp_path, monkeypatch):
     assert "schema_version" in written.read_text()
 
 
-@pytest.mark.skip(reason="Implemented in plan 02-02")
 def test_write_model_bad_yaml(tmp_path, monkeypatch):
     """write_model() returns parse error issue for invalid YAML syntax, no file written."""
     monkeypatch.chdir(tmp_path)
@@ -158,7 +152,6 @@ def test_write_model_bad_yaml(tmp_path, monkeypatch):
     assert not (tmp_path / ".design" / "model" / "Hydraulics" / "class-diagram.yaml").exists()
 
 
-@pytest.mark.skip(reason="Implemented in plan 02-02")
 def test_write_model_schema_invalid(tmp_path, monkeypatch):
     """write_model() returns Pydantic issue list for schema-invalid YAML, no file written."""
     monkeypatch.chdir(tmp_path)
