@@ -38,11 +38,11 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 5 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Bootstrap mdf-server package, test scaffolds, stub modules
-- [ ] 01-02-PLAN.md — Pydantic YAML schema (all model types, SCHEMA-01 + SCHEMA-02)
-- [ ] 01-03-PLAN.md — Draw.io bijection constants and ID functions (SCHEMA-03)
-- [ ] 01-04-PLAN.md — Draw.io round-trip test: automated + real Draw.io checkpoint (SCHEMA-04)
-- [ ] 01-05-PLAN.md — All six template files (SCHEMA-05, TMPL-01..04)
+- [x] 01-01-PLAN.md — Bootstrap mdf-server package, test scaffolds, stub modules
+- [x] 01-02-PLAN.md — Pydantic YAML schema (all model types, SCHEMA-01 + SCHEMA-02)
+- [x] 01-03-PLAN.md — Draw.io bijection constants and ID functions (SCHEMA-03)
+- [x] 01-04-PLAN.md — Draw.io round-trip test: automated + real Draw.io checkpoint (SCHEMA-04)
+- [x] 01-05-PLAN.md — All six template files (SCHEMA-05, TMPL-01..04)
 
 ### Phase 2: MCP Server + model_io
 **Goal**: The mdf-server Python package is installable and the three foundational model I/O tools are functional
