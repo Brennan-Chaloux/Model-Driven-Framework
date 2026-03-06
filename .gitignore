@@ -8,3 +8,6 @@ uv.lock
 *.lock
 package-lock.json
 yarn.lock
+
+# Local Settings
+settings.local.json
