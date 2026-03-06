@@ -11,6 +11,7 @@ in Phase 4.
 __all__ = [
     "STYLE_CLASS",
     "STYLE_ATTRIBUTE",
+    "STYLE_SEPARATOR",
     "STYLE_ASSOCIATION",
     "STYLE_ASSOC_LABEL",
     "STYLE_STATE",
@@ -20,6 +21,7 @@ __all__ = [
     "BIJECTION_TABLE",
     "class_id",
     "attribute_id",
+    "separator_id",
     "association_id",
     "state_id",
     "transition_id",
@@ -31,20 +33,27 @@ __all__ = [
 # ---------------------------------------------------------------------------
 
 STYLE_CLASS = (
-    "swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;"
+    "swimlane;fontStyle=1;horizontal=1;"
     "startSize=26;fillColor=#dae8fc;strokeColor=#6c8ebf;rounded=0;"
 )
 
 STYLE_ATTRIBUTE = (
     "text;strokeColor=none;fillColor=none;align=left;"
-    "verticalAlign=middle;spacingLeft=4;spacingRight=4;"
+    "verticalAlign=top;spacingLeft=4;spacingRight=4;"
+    "html=1;overflow=hidden;rotatable=0;"
+)
+
+STYLE_SEPARATOR = (
+    "line;strokeColor=inherit;fillColor=none;align=left;"
+    "verticalAlign=middle;spacingTop=-1;spacingBottom=-1;"
+    "spacingLeft=3;spacingRight=3;rotatable=0;"
 )
 
 STYLE_ASSOCIATION = "edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;"
 
 STYLE_ASSOC_LABEL = "edgeLabel;align=center;"
 
-STYLE_STATE = "rounded=1;whiteSpace=wrap;html=1;arcSize=50;"
+STYLE_STATE = "rounded=1;whiteSpace=wrap;html=1;arcSize=10;"
 
 STYLE_INITIAL_PSEUDO = (
     "ellipse;whiteSpace=wrap;html=1;aspect=fixed;"
@@ -68,6 +77,7 @@ BIJECTION_TABLE: dict[str, str] = {
     "initial_pseudo": STYLE_INITIAL_PSEUDO,
     "transition":     STYLE_TRANSITION,
     "bridge":         STYLE_BRIDGE,
+    "separator":      STYLE_SEPARATOR,
 }
 
 # ---------------------------------------------------------------------------
@@ -84,6 +94,11 @@ def class_id(domain: str, class_name: str) -> str:
 def attribute_id(domain: str, class_name: str, attr_name: str) -> str:
     """Return deterministic mxCell ID for an attribute element."""
     return f"{domain.lower()}:attr:{class_name}:{attr_name}"
+
+
+def separator_id(domain: str, class_name: str) -> str:
+    """Return deterministic mxCell ID for the attribute/method divider in a class."""
+    return f"{domain.lower()}:sep:{class_name}"
 
 
 def association_id(domain: str, assoc_name: str) -> str:
@@ -112,6 +127,26 @@ def transition_id(
 
 from lxml import etree  # noqa: E402 — imported here to keep module lighter
 
+_VIS = {"public": "+", "private": "-", "protected": "#"}
+
+
+def _attr_label(vis: str, scope: str, name: str, type_: str) -> str:
+    """Format a UML attribute label. Class-scope names are HTML-underlined."""
+    sym = _VIS.get(vis, "-")
+    text = f"{name}: {type_}"
+    if scope == "class":
+        text = f"<u>{text}</u>"
+    return f"{sym} {text}"
+
+
+def _method_label(vis: str, scope: str, name: str, params: str, return_: str) -> str:
+    """Format a UML method label. Class-scope names are HTML-underlined."""
+    sym = _VIS.get(vis, "-")
+    sig = f"{name}({params}): {return_}"
+    if scope == "class":
+        sig = f"<u>{sig}</u>"
+    return f"{sym} {sig}"
+
 
 def render_sample_xml() -> bytes:
     """Generate a minimal representative Draw.io XML for round-trip testing.
@@ -119,6 +154,10 @@ def render_sample_xml() -> bytes:
     Produces an uncompressed mxfile (compressed='false') so Draw.io does not
     base64-encode the diagram on save, avoiding the Pitfall 2 decompression
     issue documented in RESEARCH.md.
+
+    Class layout: UML two-section swimlane — attributes above divider, methods below.
+    Visibility prefix: + public, - private, # protected.
+    Class-scope members are HTML-underlined (<u>name</u>); requires html=1 in style.
 
     Returns UTF-8 encoded bytes of the full mxfile XML.
     """
@@ -139,47 +178,110 @@ def render_sample_xml() -> bytes:
     etree.SubElement(root_el, "mxCell", id="0")
     etree.SubElement(root_el, "mxCell", id="1", parent="0")
 
-    # --- Class: Valve ---
-    valve_cid = class_id(domain, "Valve")
-    valve_cell = etree.SubElement(
-        root_el, "mxCell",
-        id=valve_cid, value="<<entity>>\nValve",
-        style=STYLE_CLASS, vertex="1", parent="1",
-    )
-    etree.SubElement(
-        valve_cell, "mxGeometry",
-        x="100", y="100", width="200", height="60",
-        attrib={"as": "geometry"},
-    )
+    # Row height constants
+    ROW_H = 20   # px per text row
+    SEP_H = 8    # px for separator line
 
-    # Attribute child cells
-    for i, (attr_name, attr_label) in enumerate([
-        ("valve_id", "[I] valve_id: ValveID"),
-        ("position", "position: Real"),
-    ]):
-        a_id = attribute_id(domain, "Valve", attr_name)
-        a_cell = etree.SubElement(
-            root_el, "mxCell",
-            id=a_id, value=attr_label,
-            style=STYLE_ATTRIBUTE, vertex="1", parent=valve_cid,
+    HEADER_H = 26  # swimlane startSize — children y=0 is top of header, content starts at HEADER_H
+
+    def _add_class(
+        parent_el: etree._Element,
+        cid: str,
+        name: str,
+        stereotype: str,
+        x: int,
+        y: int,
+        width: int,
+        attrs: list[tuple[str, str, str, str]],   # (attr_name, vis, scope, type_)
+        methods: list[tuple[str, str, str, str, str]],  # (name, vis, scope, params, ret)
+    ) -> None:
+        """Add a UML class swimlane with two-section layout (attrs / sep / methods).
+
+        Child y coordinates are absolute within the swimlane (y=0 is top of header).
+        Content area starts at y=HEADER_H (26). No childLayout=stackLayout — children
+        use explicit geometry so Draw.io does not auto-redistribute heights.
+        """
+        attrs_h = max(len(attrs), 1) * ROW_H
+        methods_h = max(len(methods), 1) * ROW_H
+        total_h = HEADER_H + attrs_h + SEP_H + methods_h
+
+        cls_cell = etree.SubElement(
+            parent_el, "mxCell",
+            id=cid, value=f"<<{stereotype}>>\n{name}",
+            style=STYLE_CLASS, vertex="1", parent="1",
         )
         etree.SubElement(
-            a_cell, "mxGeometry",
-            y=str(60 + i * 20), width="200", height="20",
+            cls_cell, "mxGeometry",
+            x=str(x), y=str(y), width=str(width), height=str(total_h),
             attrib={"as": "geometry"},
         )
 
+        # Attributes section — single cell, all lines joined with <br>
+        attr_text = "<br>".join(
+            _attr_label(vis, scope, n, t) for n, vis, scope, t in attrs
+        ) if attrs else ""
+        attrs_cell = etree.SubElement(
+            parent_el, "mxCell",
+            id=f"{cid}:attrs", value=attr_text,
+            style=STYLE_ATTRIBUTE, vertex="1", parent=cid,
+        )
+        etree.SubElement(
+            attrs_cell, "mxGeometry",
+            y=str(HEADER_H), width=str(width), height=str(attrs_h),
+            attrib={"as": "geometry"},
+        )
+
+        # Separator
+        sep_y = HEADER_H + attrs_h
+        sep_cell = etree.SubElement(
+            parent_el, "mxCell",
+            id=separator_id(domain, name), value="",
+            style=STYLE_SEPARATOR, vertex="1", parent=cid,
+        )
+        etree.SubElement(
+            sep_cell, "mxGeometry",
+            y=str(sep_y), width=str(width), height=str(SEP_H),
+            attrib={"as": "geometry"},
+        )
+
+        # Methods section — single cell, all lines joined with <br>
+        method_text = "<br>".join(
+            _method_label(vis, scope, n, p, r) for n, vis, scope, p, r in methods
+        ) if methods else ""
+        methods_cell = etree.SubElement(
+            parent_el, "mxCell",
+            id=f"{cid}:methods", value=method_text,
+            style=STYLE_ATTRIBUTE, vertex="1", parent=cid,
+        )
+        etree.SubElement(
+            methods_cell, "mxGeometry",
+            y=str(sep_y + SEP_H), width=str(width), height=str(methods_h),
+            attrib={"as": "geometry"},
+        )
+
+    # --- Class: Valve ---
+    valve_cid = class_id(domain, "Valve")
+    _add_class(
+        root_el, valve_cid, "Valve", "entity", 100, 100, 220,
+        attrs=[
+            ("valve_id", "private", "instance", "ValveID"),
+            ("position", "private", "instance", "Real"),
+        ],
+        methods=[
+            ("open", "public", "instance", "target_position: Real", "null"),
+            ("create", "public", "class", "valve_id: ValveID", "Valve"),
+        ],
+    )
+
     # --- Class: ActuatorPosition ---
     ap_cid = class_id(domain, "ActuatorPosition")
-    ap_cell = etree.SubElement(
-        root_el, "mxCell",
-        id=ap_cid, value="<<entity>>\nActuatorPosition",
-        style=STYLE_CLASS, vertex="1", parent="1",
-    )
-    etree.SubElement(
-        ap_cell, "mxGeometry",
-        x="400", y="100", width="200", height="60",
-        attrib={"as": "geometry"},
+    _add_class(
+        root_el, ap_cid, "ActuatorPosition", "entity", 420, 100, 220,
+        attrs=[
+            ("actuator_id", "private", "instance", "UniqueID"),
+            ("stroke_count", "private", "instance", "Integer"),
+        ],
+        methods=[],
     )
 
     # --- Association R1: Valve -> ActuatorPosition ---
@@ -201,19 +303,27 @@ def render_sample_xml() -> bytes:
     )
     etree.SubElement(
         idle_cell, "mxGeometry",
-        x="100", y="300", width="120", height="60",
+        x="100", y="300", width="160", height="50",
         attrib={"as": "geometry"},
     )
 
+    # Opening state — has entry action displayed in a compartment below the name
     opening_cid = state_id(domain, "Valve", "Opening")
+    opening_label = (
+        "Opening"
+        "<br>──────────────────"
+        "<br><i>entry /</i>"
+        "<br>self.target = rcvd_evt.target_position;"
+        "<br>Timer::start_timer(timeout_ms);"
+    )
     opening_cell = etree.SubElement(
         root_el, "mxCell",
-        id=opening_cid, value="Opening",
+        id=opening_cid, value=opening_label,
         style=STYLE_STATE, vertex="1", parent="1",
     )
     etree.SubElement(
         opening_cell, "mxGeometry",
-        x="300", y="300", width="120", height="60",
+        x="360", y="300", width="200", height="100",
         attrib={"as": "geometry"},
     )
 
@@ -226,11 +336,11 @@ def render_sample_xml() -> bytes:
     )
     etree.SubElement(
         init_cell, "mxGeometry",
-        x="40", y="320", width="20", height="20",
+        x="40", y="315", width="20", height="20",
         attrib={"as": "geometry"},
     )
 
-    # Initial -> Idle transition
+    # Initial -> Idle (no event label on initial transition)
     init_trans_cid = f"{domain.lower()}:trans:Valve:__initial__:__init__:0"
     init_trans = etree.SubElement(
         root_el, "mxCell",
@@ -240,11 +350,16 @@ def render_sample_xml() -> bytes:
     )
     etree.SubElement(init_trans, "mxGeometry", attrib={"relative": "1", "as": "geometry"})
 
-    # Idle -> Opening on Open [guard]
+    # Idle -> Opening: three-line label — ID / event signature / guard
     trans_cid = transition_id(domain, "Valve", "Idle", "Open", 0)
+    trans_label = (
+        f"{trans_cid}"
+        "<br>Open(target_position: Real)"
+        "<br>[self.pressure &lt; max_pressure]"
+    )
     trans_cell = etree.SubElement(
         root_el, "mxCell",
-        id=trans_cid, value="Open [self.pressure < max_pressure]",
+        id=trans_cid, value=trans_label,
         style=STYLE_TRANSITION, edge="1",
         source=idle_cid, target=opening_cid, parent="1",
     )

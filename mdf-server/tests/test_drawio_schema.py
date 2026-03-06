@@ -1,13 +1,13 @@
 """Tests for drawio_schema.py — SCHEMA-03 (bijection table complete and correct)."""
 from mdf_server.schema.drawio_schema import (
     BIJECTION_TABLE,
-    STYLE_CLASS, STYLE_ATTRIBUTE, STYLE_ASSOCIATION, STYLE_ASSOC_LABEL,
+    STYLE_CLASS, STYLE_ATTRIBUTE, STYLE_SEPARATOR, STYLE_ASSOCIATION, STYLE_ASSOC_LABEL,
     STYLE_STATE, STYLE_INITIAL_PSEUDO, STYLE_TRANSITION, STYLE_BRIDGE,
-    class_id, attribute_id, association_id, state_id, transition_id,
+    class_id, attribute_id, separator_id, association_id, state_id, transition_id,
 )
 
 REQUIRED_ELEMENT_TYPES = {
-    "class", "attribute", "association", "assoc_label",
+    "class", "attribute", "separator", "association", "assoc_label",
     "state", "initial_pseudo", "transition", "bridge",
 }
 

@@ -76,6 +76,7 @@ Recent decisions affecting current work:
 - [Phase 01-schema-foundation]: Domain is always lowercased in all ID generator functions — canonical form enforced by design, not by call sites
 - [Phase 01-schema-foundation]: No STYLE_MULTIPLICITY_LABEL constant — multiplicity end labels share STYLE_ASSOC_LABEL
 - [Phase 01-schema-foundation]: Templates use angle-bracket placeholder syntax matching CONTEXT.md structure; no yaml-language-server schema comments in YAML templates
+- [Phase 01-schema-foundation]: Draw.io file structure mirrors YAML file structure — one .drawio file per diagram type (class-diagram.drawio, state-diagrams/Valve.drawio, etc.), not one file per domain with multiple pages
 
 ### Pending Todos
 

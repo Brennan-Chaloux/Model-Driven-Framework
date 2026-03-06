@@ -133,6 +133,8 @@ class TypesFile(SchemaVersionMixin):
 class Attribute(BaseModel):
     name: str
     type: str
+    visibility: Literal["public", "private", "protected"] = "private"
+    scope: Literal["instance", "class"] = "instance"
     identifier: bool = False
     referential: str | None = None
 
@@ -146,6 +148,7 @@ class Method(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     name: str
+    visibility: Literal["public", "private", "protected"] = "private"
     scope: Literal["instance", "class"]
     params: list[MethodParam] = []
     return_type: str | None = Field(default=None, alias="return")

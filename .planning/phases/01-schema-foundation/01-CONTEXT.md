@@ -318,6 +318,11 @@ All action blocks (transition actions, entry actions, method bodies) stored as Y
 - **Re-render behavior:** `render_to_drawio` merges, not overwrites. If a Draw.io file already exists, existing element positions are preserved; net-new elements are auto-placed; removed elements are deleted.
 - **Element IDs:** Deterministic from YAML path — e.g., `hydraulics:class:Valve`, `hydraulics:state:Valve:Idle`. Same YAML always produces same Draw.io element ID.
 - **Canonical schema enforcement:** `validate_drawio` checks shape type and required labels (name, stereotype, multiplicity, verb phrases). Colors and fonts are free for engineers to customize.
+- **File structure:** One `.drawio` file per diagram type, mirroring the YAML layout exactly:
+  - `class-diagram.yaml` → `class-diagram.drawio`
+  - `state-diagrams/Valve.yaml` → `state-diagrams/Valve.drawio`
+  - `DOMAINS.yaml` → `DOMAINS.drawio`
+  Not one file per domain with multiple pages.
 
 ### Stereotype enforcement
 

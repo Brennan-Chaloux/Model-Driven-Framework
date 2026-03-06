@@ -299,3 +299,77 @@ def test_guard_all_or_none_violation_rejected():
     with pytest.raises(ValidationError) as exc_info:
         StateDiagramFile.model_validate(bad)
     assert "guard" in str(exc_info.value).lower()
+
+
+# ---------------------------------------------------------------------------
+# Test 9: SCHEMA-01 — Attribute and Method visibility/scope defaults and values
+# ---------------------------------------------------------------------------
+
+def test_attribute_visibility_scope_defaults():
+    """SCHEMA-01: Attribute defaults visibility=private, scope=instance when not specified."""
+    data = {
+        "schema_version": "1.0.0",
+        "domain": "Hydraulics",
+        "classes": [
+            {
+                "name": "Valve",
+                "stereotype": "entity",
+                "attributes": [
+                    {"name": "valve_id", "type": "UniqueID"},
+                ],
+                "methods": [
+                    {"name": "open", "scope": "instance"},
+                ],
+            }
+        ],
+    }
+    result = ClassDiagramFile.model_validate(data)
+    attr = result.classes[0].attributes[0]
+    assert attr.visibility == "private"
+    assert attr.scope == "instance"
+    method = result.classes[0].methods[0]
+    assert method.visibility == "private"
+
+
+def test_attribute_visibility_scope_explicit():
+    """SCHEMA-01: Attribute accepts explicit visibility and scope values."""
+    data = {
+        "schema_version": "1.0.0",
+        "domain": "Hydraulics",
+        "classes": [
+            {
+                "name": "Valve",
+                "stereotype": "entity",
+                "attributes": [
+                    {
+                        "name": "instance_count",
+                        "type": "Integer",
+                        "visibility": "public",
+                        "scope": "class",
+                    },
+                    {
+                        "name": "pressure",
+                        "type": "Real",
+                        "visibility": "protected",
+                        "scope": "instance",
+                    },
+                ],
+                "methods": [
+                    {
+                        "name": "create",
+                        "visibility": "public",
+                        "scope": "class",
+                    },
+                ],
+            }
+        ],
+    }
+    result = ClassDiagramFile.model_validate(data)
+    attrs = result.classes[0].attributes
+    assert attrs[0].visibility == "public"
+    assert attrs[0].scope == "class"
+    assert attrs[1].visibility == "protected"
+    assert attrs[1].scope == "instance"
+    method = result.classes[0].methods[0]
+    assert method.visibility == "public"
+    assert method.scope == "class"
