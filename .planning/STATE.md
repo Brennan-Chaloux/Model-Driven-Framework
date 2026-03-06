@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 02-01-PLAN.md
-last_updated: "2026-03-06T19:47:20.766Z"
+stopped_at: Completed 02-02-PLAN.md
+last_updated: "2026-03-06T19:51:32.992Z"
 last_activity: 2026-03-06 — Implemented drawio_schema.py bijection table and 7 SCHEMA-03 tests
 progress:
   total_phases: 10
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 7
-  completed_plans: 6
+  completed_plans: 7
   percent: 0
 ---
 
@@ -56,6 +56,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 01-schema-foundation P05 | 8 | 2 tasks | 7 files |
 | Phase 01-schema-foundation P04 | 60 | 2 tasks | 8 files |
 | Phase 02-mcp-server-model-io P01 | 8 | 2 tasks | 10 files |
+| Phase 02-mcp-server-model-io P02 | 15 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -83,6 +84,8 @@ Recent decisions affecting current work:
 - [Phase 01-schema-foundation]: STYLE_SEPARATOR added to bijection — two-section UML swimlane requires distinct divider cell type; Attribute.visibility/scope default to private/instance
 - [Phase 01-schema-foundation]: File-per-diagram-type: class-diagram.yaml maps to class-diagram.drawio, not one file per domain with pages
 - [Phase 02-mcp-server-model-io]: fastmcp>=3.1.0,<4.0.0 pinned with mcp.tool(fn) registration; MODEL_ROOT importlib.reload pattern for CWD isolation in tests
+- [Phase 02-mcp-server-model-io]: MODEL_ROOT anchored to CWD not __file__; importlib.reload forces re-evaluation per test via monkeypatch.chdir
+- [Phase 02-mcp-server-model-io]: write_model validates fully (YAML parse + Pydantic) before mkdir — no partial writes on error
 
 ### Pending Todos
 
@@ -95,6 +98,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-06T19:47:20.763Z
-Stopped at: Completed 02-01-PLAN.md
+Last session: 2026-03-06T19:51:32.988Z
+Stopped at: Completed 02-02-PLAN.md
 Resume file: None

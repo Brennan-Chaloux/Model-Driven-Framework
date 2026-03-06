@@ -23,9 +23,9 @@
 ### MCP Server
 
 - [x] **MCP-00**: MCP server package scaffolded — `mdf-server/` with `pyproject.toml`, `server.py`, module structure (`tools/`, `schema/`, `pycca/`)
-- [ ] **MCP-01**: `list_domains()` — returns all domain names in `.design/model/`
-- [ ] **MCP-02**: `read_model(domain)` — returns YAML for one domain; error if not found lists available domains
-- [ ] **MCP-03**: `write_model(domain, yaml)` — saves, validates against schema, returns issue list; idempotent
+- [x] **MCP-01**: `list_domains()` — returns all domain names in `.design/model/`
+- [x] **MCP-02**: `read_model(domain)` — returns YAML for one domain; error if not found lists available domains
+- [x] **MCP-03**: `write_model(domain, yaml)` — saves, validates against schema, returns issue list; idempotent
 - [ ] **MCP-04**: `validate_model(domain)` — returns list of issues: referential integrity, graph reachability (BFS/DFS unreachable states, trap states), pycca syntax pre-check; never pass/fail
 - [ ] **MCP-05**: `render_to_drawio(domain)` — generates Draw.io XML from YAML per canonical schema; deterministic and idempotent
 - [ ] **MCP-06**: `validate_drawio(domain, xml)` — validates Draw.io XML against canonical schema before sync; returns issue list
@@ -110,9 +110,9 @@
 | TMPL-03 | Phase 1 | Complete |
 | TMPL-04 | Phase 1 | Complete |
 | MCP-00 | Phase 2 | Complete |
-| MCP-01 | Phase 2 | Pending |
-| MCP-02 | Phase 2 | Pending |
-| MCP-03 | Phase 2 | Pending |
+| MCP-01 | Phase 2 | Complete |
+| MCP-02 | Phase 2 | Complete |
+| MCP-03 | Phase 2 | Complete |
 | MCP-04 | Phase 3 | Pending |
 | MCP-05 | Phase 4 | Pending |
 | MCP-06 | Phase 4 | Pending |

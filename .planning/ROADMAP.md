@@ -13,7 +13,7 @@ Build the complete MDF toolchain in strict dependency order: schema and template
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Schema Foundation** - Define YAML model schema (Pydantic), canonical Draw.io bijection, and all artifact templates (completed 2026-03-06)
-- [ ] **Phase 2: MCP Server + model_io** - Scaffold the FastMCP server package and implement the three foundational CRUD tools
+- [x] **Phase 2: MCP Server + model_io** - Scaffold the FastMCP server package and implement the three foundational CRUD tools (completed 2026-03-06)
 - [ ] **Phase 3: Validation Tool** - Implement validate_model with graph reachability, structural checks, and pycca pre-parser
 - [ ] **Phase 4: Draw.io Tools** - Implement render_to_drawio, validate_drawio, and sync_from_drawio against the locked canonical schema
 - [ ] **Phase 5: Simulation** - Implement simulate_state_machine with lark pycca parser and event-driven interpreter
@@ -158,7 +158,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Schema Foundation | 5/5 | Complete   | 2026-03-06 |
-| 2. MCP Server + model_io | 0/2 | Not started | - |
+| 2. MCP Server + model_io | 2/2 | Complete   | 2026-03-06 |
 | 3. Validation Tool | 0/TBD | Not started | - |
 | 4. Draw.io Tools | 0/TBD | Not started | - |
 | 5. Simulation | 0/TBD | Not started | - |
