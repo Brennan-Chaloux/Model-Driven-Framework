@@ -22,7 +22,7 @@
 
 ### MCP Server
 
-- [ ] **MCP-00**: MCP server package scaffolded — `mdf-server/` with `pyproject.toml`, `server.py`, module structure (`tools/`, `schema/`, `pycca/`)
+- [x] **MCP-00**: MCP server package scaffolded — `mdf-server/` with `pyproject.toml`, `server.py`, module structure (`tools/`, `schema/`, `pycca/`)
 - [ ] **MCP-01**: `list_domains()` — returns all domain names in `.design/model/`
 - [ ] **MCP-02**: `read_model(domain)` — returns YAML for one domain; error if not found lists available domains
 - [ ] **MCP-03**: `write_model(domain, yaml)` — saves, validates against schema, returns issue list; idempotent
@@ -109,7 +109,7 @@
 | TMPL-02 | Phase 1 | Complete |
 | TMPL-03 | Phase 1 | Complete |
 | TMPL-04 | Phase 1 | Complete |
-| MCP-00 | Phase 2 | Pending |
+| MCP-00 | Phase 2 | Complete |
 | MCP-01 | Phase 2 | Pending |
 | MCP-02 | Phase 2 | Pending |
 | MCP-03 | Phase 2 | Pending |
