@@ -1,0 +1,10 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Lock files
+uv.lock
+*.lock
+package-lock.json
+yarn.lock
