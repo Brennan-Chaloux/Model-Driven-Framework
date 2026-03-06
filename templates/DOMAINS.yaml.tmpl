@@ -1,0 +1,17 @@
+schema_version: "1.0.0"
+domains:
+  - name: <DomainName>
+    type: application        # application | realized
+    description: <One-sentence description of this domain's responsibility>
+  - name: <RealizedDomainName>
+    type: realized
+    description: <What this realized domain wraps or provides>
+bridges:
+  - from: <RequiringDomain>
+    to: <ProvidingDomain>
+    operations:
+      - name: <operation_name>
+        params:
+          - name: <param_name>
+            type: <Type>         # Boolean | Integer | Real | String | UniqueID | <CustomType>
+        return: <ReturnType>     # null if void

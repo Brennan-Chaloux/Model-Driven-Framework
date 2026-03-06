@@ -1,0 +1,58 @@
+schema_version: "1.0.0"
+domain: <DomainName>
+
+classes:
+  - name: <EntityClassName>
+    stereotype: entity
+    attributes:
+      - name: <identifier_attr>
+        type: UniqueID
+        identifier: true
+      - name: <regular_attr>
+        type: <Type>
+        identifier: false
+
+  - name: <ActiveClassName>
+    stereotype: active
+    attributes:
+      - name: <identifier_attr>
+        type: UniqueID
+        identifier: true
+    methods:
+      - name: <method_name>
+        scope: instance         # instance | class
+        params:
+          - name: <param_name>
+            type: <Type>
+        return: null
+        action: |
+          <pycca action body>
+
+  - name: <AssociativeClassName>
+    stereotype: associative
+    formalizes: R1              # R-number of the association this class formalizes
+    attributes:
+      - name: <attr_name>
+        type: <Type>
+        identifier: false
+
+associations:
+  - name: R1
+    point_1: <ClassName1>
+    point_2: <ClassName2>
+    1_mult_2: "1..M"            # "1" | "1..M" | "0..1" | "M"
+    2_mult_1: "1"
+    1_phrase_2: "<verb phrase>"
+    2_phrase_1: "<verb phrase>"
+
+bridges:
+  - to_domain: <ProvidingDomainName>
+    direction: required
+    operations: [<operation_name>]   # names only — signatures in DOMAINS.yaml
+
+  - to_domain: <RequiringDomainName>
+    direction: provided
+    implementations:
+      - name: <operation_name>
+        action: |
+          <pycca implementation body>

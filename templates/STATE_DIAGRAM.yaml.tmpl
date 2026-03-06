@@ -1,0 +1,37 @@
+schema_version: "1.0.0"
+domain: <DomainName>
+class: <ActiveClassName>
+
+events:
+  - name: <EventName>
+    params:
+      - name: <param_name>
+        type: <Type>
+  - name: <SimpleEventName>
+    params: []
+
+states:
+  - name: <InitialStateName>
+    entry_action: null
+  - name: <ActiveStateName>
+    entry_action: |
+      <pycca entry action — executes when entering this state>
+  - name: <FaultStateName>
+    entry_action: null
+
+transitions:
+  - from: <InitialStateName>
+    to: <ActiveStateName>
+    event: <EventName>
+    guard: "<pycca boolean expression>"    # null if unconditional
+    action: null
+  - from: <InitialStateName>
+    to: <FaultStateName>
+    event: <EventName>
+    guard: "<complementary guard>"         # if any transition has a guard, ALL must
+    action: null
+  - from: <ActiveStateName>
+    to: <InitialStateName>
+    event: <SimpleEventName>
+    guard: null
+    action: null

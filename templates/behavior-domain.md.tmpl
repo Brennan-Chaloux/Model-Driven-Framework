@@ -1,0 +1,29 @@
+# Domain: <DomainName>
+
+## Purpose
+[One-paragraph statement of this domain's responsibility. What problem does it solve? What does
+it manage or control? Write in present tense.]
+
+## Scope
+### Does
+- [Specific responsibility 1]
+- [Specific responsibility 2]
+
+### Does Not
+- [Explicitly out-of-scope item 1 — helps clarify domain boundaries]
+- [Explicitly out-of-scope item 2]
+
+## Bridge Contracts
+<!-- List one entry per bridge operation this domain requires or provides. -->
+<!-- R: = Required (this domain calls the other domain) -->
+<!-- P: = Provided (this domain implements the operation for another domain) -->
+
+### R: <ProvidingDomain>::<operation_name>
+- Input: <param_name> (<Type>)
+- Output: <ReturnType>
+- Behavior: [What this domain expects to happen when it calls this operation]
+
+### P: <operation_name>
+- Input: <param_name> (<Type>)
+- Output: <ReturnType>
+- Behavior: [What this domain does when another domain calls this operation on it]

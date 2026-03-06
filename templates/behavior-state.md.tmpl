@@ -1,0 +1,27 @@
+# State Machine: <ClassName>
+
+## Purpose
+[What behavioral role this state machine plays. What lifecycle or process does it model?
+One to two sentences.]
+
+## States
+### <StateName>
+- Invariant: [What is always true while an instance is in this state]
+- Transitions out:
+  - <EventName> [<guard if any>] -> <TargetStateName>
+  - <EventName> [<guard if any>] -> <AltTargetStateName>
+
+### <AnotherStateName>
+- Invariant: [What is always true while in this state]
+- Transitions out:
+  - <EventName> -> <TargetStateName>
+
+## Event Catalog
+### <EventName>
+- Accepted in: [<StateName1>, <StateName2>]
+- Effect: [What happens when this event arrives in the listed states — guard evaluation,
+  action execution, state transition]
+
+### <AnotherEventName>
+- Accepted in: [<StateName>]
+- Effect: [What happens]
