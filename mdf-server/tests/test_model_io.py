@@ -79,6 +79,20 @@ def test_list_domains_with_domains(tmp_path, monkeypatch):
 # MCP-02: read_model
 # ---------------------------------------------------------------------------
 
+def test_read_model_case_insensitive(tmp_path, monkeypatch):
+    """read_model() finds domain directory case-insensitively (e.g. 'hydraulics' finds 'Hydraulics/')."""
+    monkeypatch.chdir(tmp_path)
+    domain_dir = tmp_path / ".design" / "model" / "Hydraulics"
+    domain_dir.mkdir(parents=True)
+    (domain_dir / "class-diagram.yaml").write_text(VALID_CLASS_DIAGRAM_YAML)
+    from mdf_server.tools import model_io
+    import importlib
+    importlib.reload(model_io)
+    result = model_io.read_model("hydraulics")
+    assert isinstance(result, str)
+    assert "schema_version" in result
+
+
 @pytest.mark.skip(reason="Implemented in plan 02-02")
 def test_read_model_known(tmp_path, monkeypatch):
     """read_model() returns YAML string for a known domain."""
