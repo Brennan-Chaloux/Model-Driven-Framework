@@ -153,7 +153,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Schema Foundation | 2/5 | In Progress|  |
+| 1. Schema Foundation | 4/5 | In Progress|  |
 | 2. MCP Server + model_io | 0/TBD | Not started | - |
 | 3. Validation Tool | 0/TBD | Not started | - |
 | 4. Draw.io Tools | 0/TBD | Not started | - |

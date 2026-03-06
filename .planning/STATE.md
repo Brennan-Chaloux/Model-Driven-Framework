@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 01-schema-foundation 01-02-PLAN.md
-last_updated: "2026-03-06T16:19:57.782Z"
-last_activity: 2026-03-05 — Roadmap created for v1.0 Foundation milestone
+stopped_at: Completed 01-schema-foundation 01-05-PLAN.md
+last_updated: "2026-03-06T16:21:25.710Z"
+last_activity: 2026-03-06 — Implemented drawio_schema.py bijection table and 7 SCHEMA-03 tests
 progress:
   total_phases: 10
   completed_phases: 0
   total_plans: 5
-  completed_plans: 2
+  completed_plans: 4
   percent: 0
 ---
 
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-03-05)
 Phase: 1 of 10 (Schema Foundation)
 Plan: 0 of TBD in current phase
 Status: Ready to plan
-Last activity: 2026-03-05 — Roadmap created for v1.0 Foundation milestone
+Last activity: 2026-03-06 — Implemented drawio_schema.py bijection table and 7 SCHEMA-03 tests
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -52,6 +52,8 @@ Progress: [░░░░░░░░░░] 0%
 *Updated after each plan completion*
 | Phase 01-schema-foundation P01 | 2 | 2 tasks | 11 files |
 | Phase 01-schema-foundation P02 | 5 | 2 tasks | 2 files |
+| Phase 01-schema-foundation P03 | 2 | 2 tasks | 2 files |
+| Phase 01-schema-foundation P05 | 8 | 2 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -70,6 +72,10 @@ Recent decisions affecting current work:
 - [Phase 01-schema-foundation]: TypeDef uses plain Union (not discriminated) because ScalarType.base is str, not Literal — model_validator enforces primitive set constraint
 - [Phase 01-schema-foundation]: SchemaVersionMixin has no default on schema_version — absence of default is the enforcement mechanism for SCHEMA-02
 - [Phase 01-schema-foundation]: populate_by_name=True set on all models with aliases — allows both Python field names and YAML key names interchangeably
+- [Phase 01-schema-foundation]: BIJECTION_TABLE uses plain string keys (not enums) — simpler, JSON-serializable, easy to extend
+- [Phase 01-schema-foundation]: Domain is always lowercased in all ID generator functions — canonical form enforced by design, not by call sites
+- [Phase 01-schema-foundation]: No STYLE_MULTIPLICITY_LABEL constant — multiplicity end labels share STYLE_ASSOC_LABEL
+- [Phase 01-schema-foundation]: Templates use angle-bracket placeholder syntax matching CONTEXT.md structure; no yaml-language-server schema comments in YAML templates
 
 ### Pending Todos
 
@@ -82,6 +88,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-06T16:19:57.779Z
-Stopped at: Completed 01-schema-foundation 01-02-PLAN.md
+Last session: 2026-03-06T16:21:25.707Z
+Stopped at: Completed 01-schema-foundation 01-05-PLAN.md
 Resume file: None
