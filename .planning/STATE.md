@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 01-schema-foundation 01-01-PLAN.md
-last_updated: "2026-03-06T16:14:23.137Z"
+stopped_at: Completed 01-schema-foundation 01-02-PLAN.md
+last_updated: "2026-03-06T16:19:57.782Z"
 last_activity: 2026-03-05 — Roadmap created for v1.0 Foundation milestone
 progress:
   total_phases: 10
   completed_phases: 0
   total_plans: 5
-  completed_plans: 1
+  completed_plans: 2
   percent: 0
 ---
 
@@ -51,6 +51,7 @@ Progress: [░░░░░░░░░░] 0%
 
 *Updated after each plan completion*
 | Phase 01-schema-foundation P01 | 2 | 2 tasks | 11 files |
+| Phase 01-schema-foundation P02 | 5 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -66,6 +67,9 @@ Recent decisions affecting current work:
 - Phase 7 (Core Agents) depends on Phase 2 (model_io available) not Phase 6 (tests complete) — parallel with Phases 3-6
 - [Phase 01-schema-foundation]: Flat uv layout (no src/): mdf_server/ directly under mdf-server/, uv auto-discovers without explicit packages declaration
 - [Phase 01-schema-foundation]: Stub pattern established: docstring-only modules with plan reference, @pytest.mark.skip(reason='Implemented in plan NN') for future tests
+- [Phase 01-schema-foundation]: TypeDef uses plain Union (not discriminated) because ScalarType.base is str, not Literal — model_validator enforces primitive set constraint
+- [Phase 01-schema-foundation]: SchemaVersionMixin has no default on schema_version — absence of default is the enforcement mechanism for SCHEMA-02
+- [Phase 01-schema-foundation]: populate_by_name=True set on all models with aliases — allows both Python field names and YAML key names interchangeably
 
 ### Pending Todos
 
@@ -78,6 +82,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-06T16:14:23.133Z
-Stopped at: Completed 01-schema-foundation 01-01-PLAN.md
+Last session: 2026-03-06T16:19:57.779Z
+Stopped at: Completed 01-schema-foundation 01-02-PLAN.md
 Resume file: None
