@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 01-schema-foundation 01-05-PLAN.md
-last_updated: "2026-03-06T16:21:25.710Z"
+stopped_at: Completed 01-schema-foundation 01-04-PLAN.md
+last_updated: "2026-03-06T17:03:55.088Z"
 last_activity: 2026-03-06 — Implemented drawio_schema.py bijection table and 7 SCHEMA-03 tests
 progress:
   total_phases: 10
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 5
-  completed_plans: 4
+  completed_plans: 5
   percent: 0
 ---
 
@@ -54,6 +54,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 01-schema-foundation P02 | 5 | 2 tasks | 2 files |
 | Phase 01-schema-foundation P03 | 2 | 2 tasks | 2 files |
 | Phase 01-schema-foundation P05 | 8 | 2 tasks | 7 files |
+| Phase 01-schema-foundation P04 | 60 | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -77,6 +78,9 @@ Recent decisions affecting current work:
 - [Phase 01-schema-foundation]: No STYLE_MULTIPLICITY_LABEL constant — multiplicity end labels share STYLE_ASSOC_LABEL
 - [Phase 01-schema-foundation]: Templates use angle-bracket placeholder syntax matching CONTEXT.md structure; no yaml-language-server schema comments in YAML templates
 - [Phase 01-schema-foundation]: Draw.io file structure mirrors YAML file structure — one .drawio file per diagram type (class-diagram.drawio, state-diagrams/Valve.drawio, etc.), not one file per domain with multiple pages
+- [Phase 01-schema-foundation]: compressed=false on mxfile is mandatory — prevents base64/zlib encoding on Draw.io save, making saved files directly parseable
+- [Phase 01-schema-foundation]: STYLE_SEPARATOR added to bijection — two-section UML swimlane requires distinct divider cell type; Attribute.visibility/scope default to private/instance
+- [Phase 01-schema-foundation]: File-per-diagram-type: class-diagram.yaml maps to class-diagram.drawio, not one file per domain with pages
 
 ### Pending Todos
 
@@ -89,6 +93,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-06T16:21:25.707Z
-Stopped at: Completed 01-schema-foundation 01-05-PLAN.md
+Last session: 2026-03-06T17:03:55.085Z
+Stopped at: Completed 01-schema-foundation 01-04-PLAN.md
 Resume file: None
