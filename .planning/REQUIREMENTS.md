@@ -7,18 +7,18 @@
 
 ### Schema Foundation
 
-- [ ] **SCHEMA-01**: YAML model schema defined — classes (stereotypes, identifiers, attributes, methods), associations (verb phrase, multiplicity), state machines (states, transitions, guards, pycca actions), domain bridges (from/to, operation, params, direction)
-- [ ] **SCHEMA-02**: `schema_version` field required in all model files from day one
-- [ ] **SCHEMA-03**: Canonical Draw.io schema defined — 1:1 bijection with YAML; canonical shape-type-per-element table locked; no freeform shapes without YAML equivalent
-- [ ] **SCHEMA-04**: Draw.io round-trip test passes — generate XML, open in real Draw.io, save, sync back; structural equality confirmed before any tool is built
-- [ ] **SCHEMA-05**: Behavior doc format defined — domain-level, class-level, and state-machine-level templates
+- [x] **SCHEMA-01**: YAML model schema defined — classes (stereotypes, identifiers, attributes, methods), associations (verb phrase, multiplicity), state machines (states, transitions, guards, pycca actions), domain bridges (from/to, operation, params, direction)
+- [x] **SCHEMA-02**: `schema_version` field required in all model files from day one
+- [x] **SCHEMA-03**: Canonical Draw.io schema defined — 1:1 bijection with YAML; canonical shape-type-per-element table locked; no freeform shapes without YAML equivalent
+- [x] **SCHEMA-04**: Draw.io round-trip test passes — generate XML, open in real Draw.io, save, sync back; structural equality confirmed before any tool is built
+- [x] **SCHEMA-05**: Behavior doc format defined — domain-level, class-level, and state-machine-level templates
 
 ### Templates
 
-- [ ] **TMPL-01**: `DOMAINS.md` template — domain map with realized domains and bridge index
-- [ ] **TMPL-02**: `CLASS_DIAGRAM.yaml` template — class diagram YAML scaffold
-- [ ] **TMPL-03**: `STATE_DIAGRAM.yaml` template — state diagram YAML scaffold
-- [ ] **TMPL-04**: Behavior doc templates — `behavior-domain.md`, `behavior-class.md`, `behavior-state.md`
+- [x] **TMPL-01**: `DOMAINS.md` template — domain map with realized domains and bridge index
+- [x] **TMPL-02**: `CLASS_DIAGRAM.yaml` template — class diagram YAML scaffold
+- [x] **TMPL-03**: `STATE_DIAGRAM.yaml` template — state diagram YAML scaffold
+- [x] **TMPL-04**: Behavior doc templates — `behavior-domain.md`, `behavior-class.md`, `behavior-state.md`
 
 ### MCP Server
 
@@ -100,15 +100,15 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SCHEMA-01 | Phase 1 | Pending |
-| SCHEMA-02 | Phase 1 | Pending |
-| SCHEMA-03 | Phase 1 | Pending |
-| SCHEMA-04 | Phase 1 | Pending |
-| SCHEMA-05 | Phase 1 | Pending |
-| TMPL-01 | Phase 1 | Pending |
-| TMPL-02 | Phase 1 | Pending |
-| TMPL-03 | Phase 1 | Pending |
-| TMPL-04 | Phase 1 | Pending |
+| SCHEMA-01 | Phase 1 | Complete |
+| SCHEMA-02 | Phase 1 | Complete |
+| SCHEMA-03 | Phase 1 | Complete |
+| SCHEMA-04 | Phase 1 | Complete |
+| SCHEMA-05 | Phase 1 | Complete |
+| TMPL-01 | Phase 1 | Complete |
+| TMPL-02 | Phase 1 | Complete |
+| TMPL-03 | Phase 1 | Complete |
+| TMPL-04 | Phase 1 | Complete |
 | MCP-00 | Phase 2 | Pending |
 | MCP-01 | Phase 2 | Pending |
 | MCP-02 | Phase 2 | Pending |
