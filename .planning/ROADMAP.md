@@ -53,7 +53,11 @@ Plans:
   2. `list_domains()` returns domain names from `.design/model/` and returns an empty list when the directory does not exist
   3. `read_model(domain)` returns the YAML string for a known domain and an error listing available domains for an unknown one
   4. `write_model(domain, yaml)` saves a valid YAML file and returns a structured issue list for malformed input without throwing an exception
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — FastMCP scaffold: pyproject.toml, server.py, stub modules, test contracts (MCP-00)
+- [ ] 02-02-PLAN.md — model_io implementation: list_domains, read_model, write_model; all 9 tests green (MCP-01, MCP-02, MCP-03)
 
 ### Phase 3: Validation Tool
 **Goal**: Structural model errors are caught automatically with actionable, location-specific issue lists — not pass/fail booleans
@@ -154,7 +158,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Schema Foundation | 5/5 | Complete   | 2026-03-06 |
-| 2. MCP Server + model_io | 0/TBD | Not started | - |
+| 2. MCP Server + model_io | 0/2 | Not started | - |
 | 3. Validation Tool | 0/TBD | Not started | - |
 | 4. Draw.io Tools | 0/TBD | Not started | - |
 | 5. Simulation | 0/TBD | Not started | - |
