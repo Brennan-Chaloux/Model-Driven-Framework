@@ -221,15 +221,15 @@ Four levels, all active simultaneously. Engine pauses on whichever is hit first:
 
 Runs the engine to completion against a test script. Reports pass/fail per assertion. Exits with non-zero status on any failure.
 
-The test script format and assertion schema are TBD (see Outstanding Questions).
+See [`2026-03-08-test-harness-design.md`](./2026-03-08-test-harness-design.md) for the full test file format, execution model, assertion syntax, and mock configuration.
 
 ---
 
 ## Outstanding Questions
 
 ### CLI
-1. **Test script format** — YAML is the assumed format. What is the schema? Needs to cover: domain to load, initial instance creation (class, identifier, starting state), event sequence (class, instance, event, args), clock ticks between events, and assertions (class, instance, expected state, expected property values).
-2. **Assertion granularity** — can assertions check intermediate states mid-sequence, or only final state after all events?
+1. ~~**Test script format**~~ — resolved. See `2026-03-08-test-harness-design.md`.
+2. ~~**Assertion granularity**~~ — resolved. Trace-based exact sequence matching with interspersed state check assertions. See `2026-03-08-test-harness-design.md`.
 
 ### GUI
 3. **Launch mechanism** — does `mdf-sim-gui` take a domain name as a CLI argument, or does it have an in-app domain picker?
