@@ -19,6 +19,7 @@ A design-first development workflow for embedded and real-world systems using th
 ## Core Value
 
 Engineers can verify the full structural design before typing `execute-phase` — no guessing, no mid-execution surprises.
+
 ## Requirements
 
 ### Validated
