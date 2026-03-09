@@ -1,0 +1,3 @@
+[submodule "mdf-sim"]
+	path = mdf-sim
+	url = https://github.com/BChaloux-Cyn/MDF-Simulator

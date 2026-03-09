@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Phase 3 context gathered
-last_updated: "2026-03-06T20:35:47.949Z"
-last_activity: 2026-03-06 — Implemented drawio_schema.py bijection table and 7 SCHEMA-03 tests
+stopped_at: Repo split complete — ready to plan Phase 7
+last_updated: "2026-03-09T00:00:00.000Z"
+last_activity: 2026-03-09 — Split monorepo into mdf-simulator + mdf-server
 progress:
-  total_phases: 10
-  completed_phases: 2
-  total_plans: 7
-  completed_plans: 7
+  total_phases: 4
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
   percent: 0
 ---
 
@@ -18,17 +18,19 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-03-05)
+See: .planning/PROJECT.md (updated 2026-03-09)
 
 **Core value:** Engineers can verify the full structural design before typing `execute-phase` — no guessing, no mid-execution surprises.
-**Current focus:** Phase 1 — Schema Foundation
+**Current focus:** Phase 7 — Core Agents + Modeling References (next up)
+
+> **Note:** Phases 1–6 (Schema, MCP tools, simulation engine) are tracked in the mdf-simulator repository. This STATE.md covers only mdf-server phases: 7, 8, 9, 10.
 
 ## Current Position
 
-Phase: 1 of 10 (Schema Foundation)
+Phase: 7 of 10 (Core Agents + Modeling References)
 Plan: 0 of TBD in current phase
 Status: Ready to plan
-Last activity: 2026-03-06 — Implemented drawio_schema.py bijection table and 7 SCHEMA-03 tests
+Last activity: 2026-03-09 — Repo split complete; mdf-server scoped to Claude interface
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -50,13 +52,6 @@ Progress: [░░░░░░░░░░] 0%
 - Trend: —
 
 *Updated after each plan completion*
-| Phase 01-schema-foundation P01 | 2 | 2 tasks | 11 files |
-| Phase 01-schema-foundation P02 | 5 | 2 tasks | 2 files |
-| Phase 01-schema-foundation P03 | 2 | 2 tasks | 2 files |
-| Phase 01-schema-foundation P05 | 8 | 2 tasks | 7 files |
-| Phase 01-schema-foundation P04 | 60 | 2 tasks | 8 files |
-| Phase 02-mcp-server-model-io P01 | 8 | 2 tasks | 10 files |
-| Phase 02-mcp-server-model-io P02 | 15 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -65,27 +60,11 @@ Progress: [░░░░░░░░░░] 0%
 Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
 
-- Schema-first: YAML schema and canonical Draw.io bijection must be locked before any MCP tool is implemented
-- Draw.io round-trip test must happen in Phase 1, not Phase 2 — informs canonical schema before parser is written
+- Schema-first: YAML schema and canonical Draw.io bijection are locked in mdf-simulator (Phases 1–6 complete there)
 - pycca action language is mandatory v1 scope — behavioral verification before code is the core value
 - Skills built last against stable tool API; agents built after MCP tools are stable
-- Phase 7 (Core Agents) depends on Phase 2 (model_io available) not Phase 6 (tests complete) — parallel with Phases 3-6
-- [Phase 01-schema-foundation]: Flat uv layout (no src/): mdf_server/ directly under mdf-server/, uv auto-discovers without explicit packages declaration
-- [Phase 01-schema-foundation]: Stub pattern established: docstring-only modules with plan reference, @pytest.mark.skip(reason='Implemented in plan NN') for future tests
-- [Phase 01-schema-foundation]: TypeDef uses plain Union (not discriminated) because ScalarType.base is str, not Literal — model_validator enforces primitive set constraint
-- [Phase 01-schema-foundation]: SchemaVersionMixin has no default on schema_version — absence of default is the enforcement mechanism for SCHEMA-02
-- [Phase 01-schema-foundation]: populate_by_name=True set on all models with aliases — allows both Python field names and YAML key names interchangeably
-- [Phase 01-schema-foundation]: BIJECTION_TABLE uses plain string keys (not enums) — simpler, JSON-serializable, easy to extend
-- [Phase 01-schema-foundation]: Domain is always lowercased in all ID generator functions — canonical form enforced by design, not by call sites
-- [Phase 01-schema-foundation]: No STYLE_MULTIPLICITY_LABEL constant — multiplicity end labels share STYLE_ASSOC_LABEL
-- [Phase 01-schema-foundation]: Templates use angle-bracket placeholder syntax matching CONTEXT.md structure; no yaml-language-server schema comments in YAML templates
-- [Phase 01-schema-foundation]: Draw.io file structure mirrors YAML file structure — one .drawio file per diagram type (class-diagram.drawio, state-diagrams/Valve.drawio, etc.), not one file per domain with multiple pages
-- [Phase 01-schema-foundation]: compressed=false on mxfile is mandatory — prevents base64/zlib encoding on Draw.io save, making saved files directly parseable
-- [Phase 01-schema-foundation]: STYLE_SEPARATOR added to bijection — two-section UML swimlane requires distinct divider cell type; Attribute.visibility/scope default to private/instance
-- [Phase 01-schema-foundation]: File-per-diagram-type: class-diagram.yaml maps to class-diagram.drawio, not one file per domain with pages
-- [Phase 02-mcp-server-model-io]: fastmcp>=3.1.0,<4.0.0 pinned with mcp.tool(fn) registration; MODEL_ROOT importlib.reload pattern for CWD isolation in tests
-- [Phase 02-mcp-server-model-io]: MODEL_ROOT anchored to CWD not __file__; importlib.reload forces re-evaluation per test via monkeypatch.chdir
-- [Phase 02-mcp-server-model-io]: write_model validates fully (YAML parse + Pydantic) before mkdir — no partial writes on error
+- Phase 7 (Core Agents) depends on mdf-sim submodule (model_io available), not on mdf-server implementing tools
+- Repo split 2026-03-09: schema, tools, simulation → mdf-simulator; skills, agents, Claude interface → mdf-server
 
 ### Pending Todos
 
@@ -93,11 +72,11 @@ None yet.
 
 ### Blockers/Concerns
 
-- FastMCP 3.x API specifics need verification against gofastmcp.com before Phase 2 implementation (training cutoff predates 3.x stable release)
-- pycca grammar scope for lark parser needs derivation from pycca compiler reference before Phase 5 — research-phase recommended at plan time
+- mdf-sim submodule wiring: Phase 7 agents need `list_domains()` and `read_model()` available via mdf-sim — confirm submodule install path before starting Phase 7 planning
+- pycca grammar scope for simulation: implemented in mdf-simulator; Phase 8 Simulation Test Generator calls `simulate_state_machine` via MCP — verify tool availability before Phase 8
 
 ## Session Continuity
 
-Last session: 2026-03-06T20:35:47.945Z
-Stopped at: Phase 3 context gathered
-Resume file: .planning/phases/03-validation-tool/03-CONTEXT.md
+Last session: 2026-03-09
+Stopped at: Repo split complete — ready to plan Phase 7
+Resume file: None — start fresh with Phase 7 planning

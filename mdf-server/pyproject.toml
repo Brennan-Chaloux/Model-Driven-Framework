@@ -1,20 +1,19 @@
 [project]
 name = "mdf-server"
 version = "0.1.0"
-description = "Add your description here"
+description = "MDF MCP server — Claude interface for mdf-sim"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
-    "defusedxml>=0.7.1",
     "fastmcp>=3.1.0,<4.0.0",
-    "lxml>=6.0.2",
-    "pydantic>=2.12.5",
-    "pyyaml>=6.0.3",
-    "ruamel-yaml>=0.19.1",
+    "mdf-sim",
 ]
 
 [project.scripts]
 mdf-server = "mdf_server.server:main"
+
+[tool.uv.sources]
+mdf-sim = { path = "../mdf-sim", editable = true }
 
 [dependency-groups]
 dev = [

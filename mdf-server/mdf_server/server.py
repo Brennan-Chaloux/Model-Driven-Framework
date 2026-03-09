@@ -1,6 +1,6 @@
 """MDF MCP server — FastMCP entry point."""
 from fastmcp import FastMCP
-from mdf_server.tools.model_io import list_domains, read_model, write_model
+from tools.model_io import list_domains, read_model, write_model
 
 mcp = FastMCP("mdf")
 
